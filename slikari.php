@@ -42,8 +42,8 @@ include 'header.php';
                     <input required class="form-control" type="text" id="prezime">
                 </div>
                 <div class='form-group'>
-                    <label for="godina_rodenja">Godina rodenja</label>
-                    <input required class="form-control" type="number" id="godina_rodenja">
+                    <label for="godina_rodjenja">Godina rodjenja</label>
+                    <input required class="form-control" type="number" id="godina_rodjenja">
                 </div>
                 <div class='form-group'>
                     <label for="godina_smrti">Godina smrti</label>
@@ -72,13 +72,13 @@ include 'header.php';
             e.preventDefault();
             const ime = $('#ime').val();
             const prezime = $('#prezime').val();
-            const godina_rodenja = $('#godina_rodenja').val();
+            const godina_rodjenja = $('#godina_rodjenja').val();
             const godina_smrti = $('#godina_smrti').val();
             if (selIndex === -1) {
                 $.post('server/slikar/create.php', {
                     ime,
                     prezime,
-                    godina_rodenja,
+                    godina_rodjenja,
                     godina_smrti
                 }).then(res => {
                     res = JSON.parse(res);
@@ -92,7 +92,7 @@ include 'header.php';
                 $.post('server/slikar/update.php', {
                     ime,
                     prezime,
-                    godina_rodenja,
+                    godina_rodjenja,
                     godina_smrti,
                     id: slikari[selIndex].id
                 }).then(res => {
@@ -100,18 +100,7 @@ include 'header.php';
                     if (!res.status) {
                         alert(res.error);
                     } else {
-                        setSlikari(slikari.map((element, index) => {
-                            if (index !== selIndex) {
-                                return element;
-                            }
-                            return {
-                                id: element.id,
-                                ime,
-                                prezime,
-                                godina_rodenja,
-                                godina_smrti,
-                            };
-                        }));
+                        ucitajSlikare();
                         setIndex(-1);
                     }
                 })
@@ -156,7 +145,7 @@ include 'header.php';
                         <td>${slikar.id}</td>
                         <td>${slikar.ime}</td>
                         <td>${slikar.prezime}</td>
-                        <td>${slikar.godina_rodenja}</td>
+                        <td>${slikar.godina_rodjenja}</td>
                         <td>${slikar.godina_smrti}</td>
                         <td>
                             <button class='btn btn-light form-control' onClick="setIndex(${index})" >Izmeni</button>
@@ -176,14 +165,14 @@ include 'header.php';
             $('#naslov').html('Kreiraj slikara');
             $('#ime').val('');
             $('#prezime').val('');
-            $('#godina_rodenja').val('');
+            $('#godina_rodjenja').val('');
             $('#godina_smrti').val('');
 
         } else {
             $('#naslov').html('Izmeni slikara')
             $('#ime').val(slikari[selIndex].ime);
             $('#prezime').val(slikari[selIndex].prezime);
-            $('#godina_rodenja').val(slikari[selIndex].godina_rodenja);
+            $('#godina_rodjenja').val(slikari[selIndex].godina_rodjenja);
             $('#godina_smrti').val(slikari[selIndex].godina_smrti);
         }
         $('#vrati').attr('hidden', selIndex === -1)

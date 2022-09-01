@@ -4,7 +4,7 @@ include 'header.php';
 
 <div class='container mt-2 mb-5'>
     <h1 class='text-center text-dark'>
-        Kreiraj novi Apple proizvod
+        Kreiraj novu sliku
     </h1>
     <div class='row mt-2 d-flex justify-content-center'>
         <div class='col-7'>
@@ -36,9 +36,9 @@ include 'header.php';
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-    $(function() {
-        ucitajOptions('server/slikar/read.php', 'slikar');
-        ucitajOptions('server/pravac/read.php', 'pravac');
+    $(function () {
+        ucitajOptions('server/slikar/read.php', 'slikar', e => e.ime + ' ' + e.prezime);
+        ucitajOptions('server/pravac/read.php', 'pravac', e => e.naziv);
         $('#forma').submit(e => {
 
             e.preventDefault();
@@ -60,10 +60,12 @@ include 'header.php';
                 data: fd,
                 processData: false,
                 contentType: false,
-                success: function(data) {
+                success: function (data) {
                     data = JSON.parse(data);
                     if (!data.status) {
                         alert(data.error);
+                    } else {
+                        alert('Uspesno kreirana slika')
                     }
 
                 },
@@ -72,7 +74,7 @@ include 'header.php';
         })
     })
 
-    function ucitajOptions(url, htmlElement) {
+    function ucitajOptions(url, htmlElement, renderer) {
         $.getJSON(url).then(res => {
             if (!res.status) {
                 alert(res.error);
@@ -81,7 +83,7 @@ include 'header.php';
             for (let element of res.kolekcija) {
                 $('#' + htmlElement).append(`
                     <option value="${element.id}">
-                        ${element.naziv}
+                        ${renderer(element)}
                         </option>
                 `)
             }

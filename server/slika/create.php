@@ -1,8 +1,6 @@
 <?php
 require '../broker.php';
 
-
-
 $broker = Broker::getBroker();
 $naziv = $_POST['naziv'];
 $pravac = $_POST['pravac'];
@@ -23,5 +21,5 @@ if (!move_uploaded_file($_FILES['slika']['tmp_name'], $lokacija)) {
 }
 
 $rezultat = $broker->izmeni("insert into slika (naziv,opis,slikar,url,pravac) values" .
-    " ('" . $naziv . "'," . $opis . "," . $slikar . ",'" . $lokacija . "'," . $pravac . ") ");
+    " ('" . $naziv . "','" . $opis . "'," . $slikar . ",'" . $lokacija . "'," . $pravac . ") ");
 echo json_encode($rezultat);

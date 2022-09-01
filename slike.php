@@ -33,9 +33,9 @@ include 'header.php';
                     return;
                 }
                 pravci = res.kolekcija;
-                for (let kat of pravci) {
+                for (let pravac of pravci) {
                     $('#pravci').append(`
-                <option value="${kat.id}"> ${kat.naziv}</option>
+                <option value="${pravac.id}"> ${pravac.naziv}</option>
                 `)
                 }
             }))
@@ -70,13 +70,10 @@ include 'header.php';
 
     function render() {
         const search = $('#search').val();
-        const sort = Number($('#sort').val());
-        const kat = Number($('#pravci').val());
+        const pravac = Number($('#pravci').val());
         const niz = slike.filter(element => {
-            return (kat == 0 || element.kategorija == kat) && element.naziv.includes(search)
-        }).sort((a, b) => {
-            return (a.cena > b.cena) ? sort : 0 - sort;
-        });
+            return (pravac == 0 || element.pravac == pravac) && element.naziv.includes(search)
+        })
         let red = 0;
         let kolona = 0;
         $('#podaci').html(`<div id='row-${red}' class='row mt-2'></div>`)
@@ -91,7 +88,7 @@ include 'header.php';
                 `
                         <div class='col-3 pt-2 bg-white'>
                             <div class="card" >
-                                <img class="card-img-top" src="${slika.slika}" alt="Card image cap">
+                                <img class="card-img-top" src="${slika.url}" alt="Card image cap">
                                 <div class="card-body">
                                     <h6 class="card-title">Naziv: ${slika.naziv}</h6>
                                     <h6 class="card-title">Pravac: ${pravci.find(element => element.id === slika.pravac).naziv}</h6>
